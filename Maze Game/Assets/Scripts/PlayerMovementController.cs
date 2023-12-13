@@ -18,14 +18,13 @@ public class PlayerMovementController : MonoBehaviour
     Vector3 velocity;
 
     bool isGrounded;
+    bool isJumping;
 
-    float currentSpeed; // Güncellenen hız değeri
-    float targetSpeed; // Hedef hız değeri
+    float currentSpeed;
+    float targetSpeed;
 
-    // Hız değişim hızı
     public float speedChangeRate = 2f;
 
-    // Update is called once per frame
     void Update()
     {
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
@@ -33,6 +32,12 @@ public class PlayerMovementController : MonoBehaviour
         if (isGrounded && velocity.y < 0)
         {
             velocity.y = -2f;
+
+            if (isJumping)
+            {
+                isJumping = false;
+                animator.SetBool("isJump", false);
+            }
         }
 
         float x = Input.GetAxis("Horizontal");
@@ -44,8 +49,12 @@ public class PlayerMovementController : MonoBehaviour
 
         controller.Move(move * speed * Time.deltaTime);
 
+        // Space tuşuna basıldığında ve karakter zemindeyken Jump animasyonu devreye girmeli
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
+            isJumping = true;
+            animator.SetBool("isJump", true);
+
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
         }
 
@@ -57,13 +66,9 @@ public class PlayerMovementController : MonoBehaviour
         bool isMoving = (x != 0f || z != 0f);
         animator.SetBool("move", isMoving);
 
-        // Hedef hızı ayarla
         targetSpeed = isRunning ? 1f : 0.5f;
-
-        // Güncellenen hızı yavaşça artır veya azalt
         currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, Time.deltaTime * speedChangeRate);
 
-        // Set playerSpeed parameter for Blend Tree
         float modifiedPlayerSpeed = currentSpeed;
         animator.SetFloat("playerSpeed", modifiedPlayerSpeed);
     }

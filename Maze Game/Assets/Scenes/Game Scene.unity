@@ -209,6 +209,7 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 64
+  speedChangeRate: 2
 --- !u!143 &152663743
 CharacterController:
   m_ObjectHideFlags: 0
