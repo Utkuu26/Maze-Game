@@ -4,27 +4,32 @@ using UnityEngine;
 
 public class MouseMovementController : MonoBehaviour
 {
-    private float mouseSensitivity = 100f;
-    private float maxVerticalRotation = 15f;
- 
+    public float mouseSensitivity = 100f;
+
     float xRotation = 0f;
-    float YRotation = 0f;
- 
+    float yRotation = 0f;
+
     void Start()
     {
-      Cursor.lockState = CursorLockMode.Locked;
+        // Locking the cursor to the middle of the screen and making it invisible
+        Cursor.lockState = CursorLockMode.Locked;
     }
- 
+
     void Update()
     {
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
 
+        // Control rotation around x axis (Look up and down)
         xRotation -= mouseY;
-        xRotation = Mathf.Clamp(xRotation, -maxVerticalRotation, maxVerticalRotation);
-        YRotation += mouseX;
 
-        transform.localRotation = Quaternion.Euler(xRotation, YRotation, 0f);
+        // Clamp the rotation to avoid over-rotation
+        xRotation = Mathf.Clamp(xRotation, -45f, 5f);
+
+        // Control rotation around y axis (Look left and right)
+        yRotation += mouseX;
+
+        // Applying both rotations
+        transform.localRotation = Quaternion.Euler(xRotation, yRotation, 0f);
     }
-
 }

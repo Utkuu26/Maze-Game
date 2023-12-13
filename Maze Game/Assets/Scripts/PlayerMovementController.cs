@@ -4,44 +4,67 @@ using UnityEngine;
 
 public class PlayerMovementController : MonoBehaviour
 {
-    private float moveSpeed = 0.3f;
-    private float sprintSpeed = 1f;
+    public CharacterController controller;
+    public Animator animator;
 
-    private Animator prisonerAnim;
-    private Rigidbody rb;
-    private Vector3 moveDirection;
+    public float speed = 12f;
+    public float gravity = -9.81f * 2;
+    public float jumpHeight = 3f;
 
-    private void Start()
+    public Transform groundCheck;
+    public float groundDistance = 0.4f;
+    public LayerMask groundMask;
+
+    Vector3 velocity;
+
+    bool isGrounded;
+
+    float currentSpeed; // Güncellenen hız değeri
+    float targetSpeed; // Hedef hız değeri
+
+    // Hız değişim hızı
+    public float speedChangeRate = 2f;
+
+    // Update is called once per frame
+    void Update()
     {
-        rb = GetComponent<Rigidbody>();
-        prisonerAnim = GetComponent<Animator>();
-        prisonerAnim.SetFloat("PlayerSpeed", 0f);
-    }
+        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
-    private void Update()
-    {
-        float horizontalInput = Input.GetAxis("Horizontal");
-        float verticalInput = Input.GetAxis("Vertical");
-
-        // Player hareketi
-        moveDirection = new Vector3(horizontalInput, 0f, verticalInput).normalized;
-
-        // Koşma kontrolü
-        float currentSpeed = (Input.GetKey(KeyCode.LeftShift) && (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))) ? sprintSpeed : (Input.GetKey(KeyCode.W) ? moveSpeed : 0f);
-        Vector3 moveVelocity = moveDirection * currentSpeed * 10;
-
-        rb.velocity = new Vector3(moveVelocity.x, rb.velocity.y, moveVelocity.z);
-
-        // Hareket etme kontrolü
-        bool isMoving = moveDirection.magnitude > 0.1f;
-        prisonerAnim.SetBool("move", isMoving);
-
-        if (!isMoving)
+        if (isGrounded && velocity.y < 0)
         {
-            prisonerAnim.SetBool("move", false);
+            velocity.y = -2f;
         }
 
-        // Hız parametresini güncelle
-        prisonerAnim.SetFloat("playerSpeed", currentSpeed);
+        float x = Input.GetAxis("Horizontal");
+        float z = Input.GetAxis("Vertical");
+
+        bool isRunning = Input.GetKey(KeyCode.LeftShift);
+
+        Vector3 move = (isRunning ? transform.right * x + transform.forward * z : transform.right * x + transform.forward * z * 0.5f);
+
+        controller.Move(move * speed * Time.deltaTime);
+
+        if (Input.GetButtonDown("Jump") && isGrounded)
+        {
+            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+        }
+
+        velocity.y += gravity * Time.deltaTime;
+
+        controller.Move(velocity * Time.deltaTime);
+
+        float playerSpeed = new Vector2(controller.velocity.x, controller.velocity.z).magnitude;
+        bool isMoving = (x != 0f || z != 0f);
+        animator.SetBool("move", isMoving);
+
+        // Hedef hızı ayarla
+        targetSpeed = isRunning ? 1f : 0.5f;
+
+        // Güncellenen hızı yavaşça artır veya azalt
+        currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, Time.deltaTime * speedChangeRate);
+
+        // Set playerSpeed parameter for Blend Tree
+        float modifiedPlayerSpeed = currentSpeed;
+        animator.SetFloat("playerSpeed", modifiedPlayerSpeed);
     }
 }
