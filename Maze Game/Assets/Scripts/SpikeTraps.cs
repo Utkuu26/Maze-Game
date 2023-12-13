@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SpikeTraps : MonoBehaviour
 {
-    public int damageAmount = 50; 
+    public int damageAmount = 25; 
 
     private void OnTriggerEnter(Collider other)
     {
@@ -14,7 +14,6 @@ public class SpikeTraps : MonoBehaviour
             if (playerHealth != null)
             {
                 playerHealth.TakeDamage(damageAmount);  
-                Debug.Log("basti");
             }
         }
     }
