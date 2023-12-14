@@ -316,7 +316,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "WASD: \nMouse: \nSpace: \nH: \nE:  \n"
+  m_text: "WASD: \nMouse: \nShift:\nSpace: \nH: \nE:  \n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9c2b6e0a14f8871498486225d068cdf9, type: 2}
   m_sharedMaterial: {fileID: -1701552971036737436, guid: 9c2b6e0a14f8871498486225d068cdf9, type: 2}
@@ -454,6 +454,8 @@ MonoBehaviour:
   m_text: 'Move
 
     Camera Move
+
+    Run
 
     Jump
 
@@ -1652,7 +1654,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1437976864
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1885,7 +1887,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 171}
+  m_AnchoredPosition: {x: 0, y: 190}
   m_SizeDelta: {x: 500, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1607688737
