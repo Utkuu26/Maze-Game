@@ -53,7 +53,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 1bc5e7359523e6941ad9bcc9f54734f7, type: 3}
       propertyPath: m_Name
-      value: Spike_Trap
+      value: Spike_Trap Variant
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1bc5e7359523e6941ad9bcc9f54734f7, type: 3}
@@ -87,5 +87,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad22efa196c93fb4e956e7cd6530f555, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageAmount: 25
   damageInterval: 1
+  takeDamageSFX: {fileID: 8300000, guid: c6e5cdcd2cfaf3d4e90b92ff1c86667d, type: 3}

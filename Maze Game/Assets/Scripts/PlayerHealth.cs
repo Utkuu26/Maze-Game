@@ -47,7 +47,7 @@ public class PlayerHealth : MonoBehaviour
 
     IEnumerator RestartScene()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
     
