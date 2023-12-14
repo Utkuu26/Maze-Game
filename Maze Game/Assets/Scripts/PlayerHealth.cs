@@ -9,7 +9,6 @@ public class PlayerHealth : MonoBehaviour
     private bool isDead = false;
     public GameObject gameOverArea;
 
-
     private void Start()
     {
         gameOverArea.SetActive(false);
@@ -48,7 +47,7 @@ public class PlayerHealth : MonoBehaviour
 
     IEnumerator RestartScene()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(3f);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
     
